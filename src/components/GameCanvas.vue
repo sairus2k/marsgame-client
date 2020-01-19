@@ -12,6 +12,17 @@ let yShift = 1000;
 export default {
   name: "GameCanvas",
   props: {},
+  sockets: {
+    connect() {
+      console.log("socket connected");
+    },
+    reply(val) {
+      console.log(
+        'this method was fired by the socket server. eg: io.emit("custasdfsdfsdfomEmit", data)',
+        val
+      );
+    }
+  },
   data: function() {
     return {
       app: new PIXI.Application({
@@ -26,6 +37,8 @@ export default {
     };
   },
   mounted: function() {
+    // this.$socket.client.emit("notice", "asdfsdf");
+    this.$socket.client.emit("command", JSON.stringify({ someField: "xxx1" }));
     this.$el.appendChild(this.app.view);
     this.viewportSetup();
     this.app.loader
